@@ -1,0 +1,62 @@
+package pfe.backend.identification.model;
+
+import jakarta.persistence.*;
+import lombok.*;
+import pfe.backend.adresse.model.Adresse;
+import pfe.backend.motDePasse.model.MotDePasse;
+import pfe.backend.situationPersonnelle.model.SituationPersonnelle;
+import pfe.backend.situationProfessionnelle.model.SituationProfessionnelle;
+
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "identifications")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Identification {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String civilite;        // "M." ou "Mme"
+
+    @Column(nullable = false)
+    private String nom;
+
+    @Column(nullable = false)
+    private String prenom;
+
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column(nullable = false)
+    private String telephone;
+
+    @Column(name = "date_naissance")
+    private LocalDate dateNaissance;
+    @Builder.Default
+    private boolean accepteMentions = false;
+
+    @Column(name = "device_id", nullable = false, unique = true)
+    private String deviceId;  // ⚠️ unique par appareil
+    
+   // @OneToOne(mappedBy = "identification", cascade = CascadeType.ALL)
+   // private Adresse adresse;
+    
+
+    // Relation OneToOne avec Profession (exemple)
+  //  @OneToOne(mappedBy = "identification", cascade = CascadeType.ALL)
+   // private SituationProfessionnelle profession;
+    
+  //  @OneToOne(mappedBy = "identification", cascade = CascadeType.ALL)
+  //  private MotDePasse motDePasse ;
+    
+  //  @OneToOne(mappedBy = "identification", cascade = CascadeType.ALL)
+  //  private SituationPersonnelle situationPersonnelle ;
+    
+    
+}
