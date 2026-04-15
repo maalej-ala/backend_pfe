@@ -38,16 +38,14 @@ public class OcrController {
         consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     )
     public ResponseEntity<OcrResultDTO> analyser(
-            @RequestPart("photoCin")            MultipartFile photoCin,
-            @RequestParam("cinSaisi")           String cinSaisi,
-            @RequestParam("verificationId")     Long verificationId
+            @RequestPart("photoCin")        MultipartFile photoCin,
+            @RequestParam("verificationId") Long verificationId
     ) throws IOException {
 
-        // Récupérer la VerificationIdentite parente (déjà persistée)
         VerificationIdentite verif = verificationIdentiteService.getById(verificationId);
 
         // Lancer l'OCR + parsing + vérification + persistance
-        OcrResultDTO result = ocrService.analyserEtPersister(photoCin, cinSaisi, verif);
+        OcrResultDTO result = ocrService.extraireEtPersister(photoCin, verif);
 
         return ResponseEntity.ok(result);
     }
@@ -60,18 +58,16 @@ public class OcrController {
      *
      * Paramètres multipart/form-data :
      *   - photoCin  (file) : image de la CIN
-     *   - cinSaisi  (text) : numéro CIN saisi (optionnel, pour vérification)
      */
     @PostMapping(
         value = "/analyser-direct",
         consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     )
     public ResponseEntity<OcrResultDTO> analyserDirect(
-            @RequestPart("photoCin")                        MultipartFile photoCin,
-            @RequestParam(value = "cinSaisi", required = false) String cinSaisi
+            @RequestPart("photoCin") MultipartFile photoCin
     ) throws IOException {
 
-        OcrResultDTO result = ocrService.analyserEtPersister(photoCin, cinSaisi, null);
+        OcrResultDTO result = ocrService.extraireEtPersister(photoCin, null);
         return ResponseEntity.ok(result);
     }
 }

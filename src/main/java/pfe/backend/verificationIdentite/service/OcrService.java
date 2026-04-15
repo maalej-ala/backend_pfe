@@ -15,7 +15,6 @@ import pfe.backend.verificationIdentite.repository.OcrResultRepository;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.RescaleOp;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -93,11 +92,11 @@ public class OcrService {
         Tesseract tess = new Tesseract();
         tess.setDatapath(tessDataPath);
         tess.setLanguage(tessLanguage);
-        tess.setPageSegMode(6);    // SINGLE_BLOCK — carte d'identité
-        tess.setOcrEngineMode(1);  // LSTM (plus précis)
+        tess.setPageSegMode(4);
+        tess.setOcrEngineMode(1);
         tess.setVariable("tessedit_char_whitelist",
                 "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-                + "0123456789-/:. éàèùâêîôûëïüçÉÀÈÙÂÊÎÔÛËÏÜÇ");
+                + "0123456789-/:. ");
         try {
             return tess.doOCR(imageFile);
         } catch (TesseractException e) {
@@ -110,24 +109,32 @@ public class OcrService {
     // ══════════════════════════════════════════════════════════
 
     private File preprocessImage(File src) throws IOException {
-        BufferedImage original = ImageIO.read(src);
 
-        // Niveaux de gris
-        BufferedImage gray = new BufferedImage(
-                original.getWidth(), original.getHeight(),
-                BufferedImage.TYPE_BYTE_GRAY);
-        Graphics2D g = gray.createGraphics();
-        g.drawImage(original, 0, 0, null);
-        g.dispose();
+    BufferedImage original = ImageIO.read(src);
 
-        // Contraste +40%, luminosité -30
-        BufferedImage enhanced = new RescaleOp(1.4f, -30f, null).filter(gray, null);
+    BufferedImage gray = new BufferedImage(
+            original.getWidth(),
+            original.getHeight(),
+            BufferedImage.TYPE_BYTE_GRAY);
 
-        File out = File.createTempFile("ocr_pre_", ".png");
-        ImageIO.write(enhanced, "PNG", out);
-        return out;
-    }
+    Graphics g = gray.getGraphics();
+    g.drawImage(original, 0, 0, null);
+    g.dispose();
 
+    BufferedImage binary = new BufferedImage(
+            gray.getWidth(),
+            gray.getHeight(),
+            BufferedImage.TYPE_BYTE_BINARY);
+
+    Graphics2D g2 = binary.createGraphics();
+    g2.drawImage(gray, 0, 0, null);
+    g2.dispose();
+
+    File out = File.createTempFile("ocr_pre_", ".png");
+    ImageIO.write(binary, "png", out);
+
+    return out;
+}
     // ══════════════════════════════════════════════════════════
     //  PARSING REGEX — miroir exact de la logique Flutter
     //  Retourne le texte brut tel que Tesseract le voit,
