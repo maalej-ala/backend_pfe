@@ -20,9 +20,9 @@ public class RecapitulatifController {
      * Retourne toutes les données du dossier sauf le mot de passe.
      * Identifié par le deviceId unique de l'appareil Flutter.
      */
-    @GetMapping("/{deviceId}")
-    public ResponseEntity<RecapitulatifDTO> getRecapitulatif(
-            @PathVariable String deviceId) {
-        return ResponseEntity.ok(service.getByDeviceId(deviceId));
-    }
+    // @GetMapping("/{deviceId}")
+    // public ResponseEntity<RecapitulatifDTO> getRecapitulatif(
+    //         @PathVariable String deviceId) {
+    //     return ResponseEntity.ok(service.getByDeviceId(deviceId));
+    // }
 }
