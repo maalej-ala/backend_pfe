@@ -55,9 +55,9 @@ public class SignatureService {
 
         // ── CIN ───────────────────────────────────────────────────
         dto.setCin(verif.getCin());
-        dto.setDateDelivrance(verif.getDateDelivrance() != null
-                ? verif.getDateDelivrance().toString() : null);
-        dto.setEstClientAutreBanque(verif.isEstClientAutreBanque());
+        dto.setDateExpiration(verif.getDateExpiration() != null
+                ? verif.getDateExpiration().toString() : null);
+        dto.setEstClientAutreBanque(verif.getEstClientAutreBanque());
 
         // ── Signature ─────────────────────────────────────────────
         dto.setSignatureBase64(sig != null ? sig.getSignatureBase64() : null);
@@ -92,8 +92,8 @@ public class SignatureService {
 
         // ── Mise à jour VerificationIdentite ──────────────────────
         if (isPresent(dto.getCin()))            verif.setCin(dto.getCin());
-        if (isPresent(dto.getDateDelivrance())) {
-            verif.setDateDelivrance(parseDate(dto.getDateDelivrance()));
+        if (isPresent(dto.getDateExpiration())) {
+            verif.setDateExpiration(parseDate(dto.getDateExpiration()));
         }
         verif.setEstClientAutreBanque(dto.isEstClientAutreBanque());
         verificationIdentiteRepository.save(verif);

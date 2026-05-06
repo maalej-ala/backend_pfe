@@ -20,7 +20,15 @@ public class IdentificationController {
     public ResponseEntity<Identification> createIdentification(
             @Valid @RequestBody IdentificationRequest request) {
 
-        Identification saved = service.saveIdentification(request);
+        Identification saved = service.saveOrUpdateIdentification(request);
         return ResponseEntity.ok(saved);
+    }
+    
+    @GetMapping("/{deviceId}")
+    public ResponseEntity<Identification> getByDeviceId(@PathVariable String deviceId) {
+
+        Identification identification = service.getByDeviceId(deviceId);
+
+        return ResponseEntity.ok(identification);
     }
 }

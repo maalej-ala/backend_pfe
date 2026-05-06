@@ -24,22 +24,24 @@ public class Identification {
 
     private String civilite;        // "M." ou "Mme"
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String nom;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String prenom;
-
-    @Column(nullable = false, unique = true)
+//  unique = true + null
+//  En général, les bases comme PostgreSQL ou MySQL permettent plusieurs valeurs NULL même avec unique
+    @Column(nullable = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String telephone;
 
     @Column(name = "date_naissance")
     private LocalDate dateNaissance;
+    
     @Builder.Default
-    private boolean accepteMentions = false;
+    private Boolean accepteMentions = false;
 
     @Column(name = "device_id", nullable = false, unique = true)
     private String deviceId;  // ⚠️ unique par appareil

@@ -21,7 +21,7 @@ public class RecapitulatifDTO {
 
     // ── Vérification identité (CIN) ───────────────────────────
     private String cin;
-    private LocalDate dateDelivrance;
+    private LocalDate dateExpiration;
     private boolean estClientAutreBanque;
 
     // ── Adresse ───────────────────────────────────────────────

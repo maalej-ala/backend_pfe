@@ -31,7 +31,7 @@ public class VerificationIdentiteController {
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<VerificationIdentite> save(
             @RequestParam("cin")                  String cin,
-            @RequestParam("dateDelivrance")       LocalDate dateDelivrance,
+            @RequestParam("dateExpiration")       LocalDate dateExpiration,
             @RequestParam("estClientAutreBanque") boolean estClientAutreBanque,
             @RequestParam("deviceId")             String deviceId,
 
@@ -42,7 +42,7 @@ public class VerificationIdentiteController {
 
         VerificationIdentiteDTO dto = new VerificationIdentiteDTO();
         dto.setCin(cin);
-        dto.setDateDelivrance(dateDelivrance);
+        dto.setDateExpiration(dateExpiration);
         dto.setEstClientAutreBanque(estClientAutreBanque);
         dto.setDeviceId(deviceId);
 
@@ -56,5 +56,13 @@ public class VerificationIdentiteController {
     @GetMapping("/{id}")
     public ResponseEntity<VerificationIdentite> getById(@PathVariable Long id) {
         return ResponseEntity.ok(service.getById(id));
+    }
+
+     @GetMapping("/device/{deviceId}")
+    public ResponseEntity<VerificationIdentite> getByDeviceId(
+            @PathVariable String deviceId) {
+
+        VerificationIdentite result = service.getByDeviceId(deviceId);
+        return ResponseEntity.ok(result);
     }
 }

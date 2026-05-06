@@ -62,8 +62,8 @@ public class RecapitulatifService {
                 .dateNaissance(identification.getDateNaissance())
                 // CIN
                 .cin(verificationIdentite != null ? verificationIdentite.getCin() : null)
-                .dateDelivrance(verificationIdentite != null ? verificationIdentite.getDateDelivrance() : null)
-                .estClientAutreBanque(verificationIdentite != null && verificationIdentite.isEstClientAutreBanque())
+                .dateExpiration(verificationIdentite != null ? verificationIdentite.getDateExpiration() : null)
+                .estClientAutreBanque(verificationIdentite != null && verificationIdentite.getEstClientAutreBanque())
                 // Adresse
                 .adresse(adresse != null ? adresse.getAdresse() : null)
                 .paysNom(adresse != null ? adresse.getPaysNom() : null)

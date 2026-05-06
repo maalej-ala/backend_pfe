@@ -15,7 +15,7 @@ public class SignatureDTO {
 
     // ── CIN ───────────────────────────────────────────────────────
     private String cin;
-    private String dateDelivrance;      // format "yyyy-MM-dd" ou "dd/MM/yyyy"
+    private String dateExpiration;      // format "yyyy-MM-dd" ou "dd/MM/yyyy"
     private boolean estClientAutreBanque;
 
     // ── Adresse ───────────────────────────────────────────────────

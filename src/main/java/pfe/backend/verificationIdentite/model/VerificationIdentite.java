@@ -20,14 +20,17 @@ public class VerificationIdentite {
     private Long id;
 
     // ── Données CIN ──────────────────────────────────────────
-    @Column(name = "cin", nullable = false, length = 8)
+    @Column(name = "cin", nullable = true, length = 15)
     private String cin;
 
-    @Column(name = "date_delivrance", nullable = false)
-    private LocalDate dateDelivrance;
+    // @Column(name = "date_expiration", nullable = true)
+    // private LocalDate dateDelivrance;
 
-    @Column(name = "est_client_autre_banque", nullable = false)
-    private boolean estClientAutreBanque;
+    @Column(name = "date_expiration", nullable = true)
+    private LocalDate dateExpiration;
+
+    @Column(name = "est_client_autre_banque", nullable = true)
+    private Boolean estClientAutreBanque;
 
     // ── Chemins des fichiers stockés ─────────────────────────
     @Column(name = "photo_cin_path")

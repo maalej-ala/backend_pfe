@@ -23,6 +23,7 @@ public class SituationPersonnelle {
     private String statutCivil;
 
     @Column(name = "nb_enfants", nullable = false)
+    @Builder.Default
     private int nbEnfants = 0;
     
     @OneToOne
