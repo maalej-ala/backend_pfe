@@ -46,6 +46,13 @@ public class Identification {
     @Column(name = "device_id", nullable = false, unique = true)
     private String deviceId;  // ⚠️ unique par appareil
     
+    // ── Champs CIN (ajoutés depuis OCR) ───────────────────────
+    @Column(name = "cin", length = 20)
+    private String cin;                    // Numéro CIN
+    
+    @Column(name = "date_expiration")
+    private LocalDate dateExpiration;      // Date expiration CIN
+    
    // @OneToOne(mappedBy = "identification", cascade = CascadeType.ALL)
    // private Adresse adresse;
     

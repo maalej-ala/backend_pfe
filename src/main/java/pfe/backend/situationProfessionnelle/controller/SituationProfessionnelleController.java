@@ -21,7 +21,7 @@ public class SituationProfessionnelleController {
     @PostMapping
     public ResponseEntity<SituationProfessionnelle> save(
             @Valid @RequestBody SituationProfessionnelleDTO dto) {
-        return ResponseEntity.ok(service.save(dto));
+        return ResponseEntity.ok(service.createOrUpdate(dto));
     }
 
     @GetMapping("/{id}")

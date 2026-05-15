@@ -20,7 +20,7 @@ public class MotDePasseController {
 
     @PostMapping
     public ResponseEntity<MotDePasse> save(@Valid @RequestBody MotDePasseDTO dto) {
-        return ResponseEntity.ok(service.save(dto));
+        return ResponseEntity.ok(service.createOrUpdate(dto));
     }
 
     @GetMapping("/{id}")

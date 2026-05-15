@@ -136,8 +136,6 @@ public class VerificationIdentiteService {
     // ════════════════════════════════════════════════
     public VerificationIdentite save(
             VerificationIdentiteDTO dto,
-            MultipartFile photoCin,
-            MultipartFile photoVisageCin,
             MultipartFile photoVisageLive
     ) throws IOException {
 
@@ -158,28 +156,18 @@ public class VerificationIdentiteService {
         }
 
         // 3. Save files safely (only if provided)
-        if (photoCin != null && !photoCin.isEmpty()) {
-            entity.setPhotoCinPath(saveFile(photoCin, "cin_"));
-        }
 
-        if (photoVisageCin != null && !photoVisageCin.isEmpty()) {
-            entity.setPhotoVisageCinPath(saveFile(photoVisageCin, "visage_cin_"));
-        }
 
         if (photoVisageLive != null && !photoVisageLive.isEmpty()) {
             entity.setPhotoVisageLivePath(saveFile(photoVisageLive, "visage_live_"));
         }
 
-        // 4. Update OCR / verification fields
-        entity.setCin(dto.getCin());
-        entity.setDateExpiration(dto.getDateExpiration());
+
         entity.setEstClientAutreBanque(dto.isEstClientAutreBanque());
 
         // 5. Save (INSERT or UPDATE automatically)
         VerificationIdentite saved = repository.save(entity);
 
-        log.info("VerificationIdentite saved/updated: id={} cin={}",
-                saved.getId(), saved.getCin());
 
         return saved;
     }

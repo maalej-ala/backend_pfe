@@ -34,6 +34,9 @@ public class OcrExtraction {
 
     private String sexe;
     
+    @Column(name = "photo_cin_path")
+    private String photoCinPath;
+    
     @OneToOne
     @JoinColumn(name = "identification_id")
     private Identification identification;

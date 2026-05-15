@@ -10,7 +10,6 @@ import pfe.backend.verificationIdentite.model.VerificationIdentite;
 import pfe.backend.verificationIdentite.service.VerificationIdentiteService;
 
 import java.io.IOException;
-import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/api/verification-identite")
@@ -30,23 +29,16 @@ public class VerificationIdentiteController {
      */
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<VerificationIdentite> save(
-            @RequestParam("cin")                  String cin,
-            @RequestParam("dateExpiration")       LocalDate dateExpiration,
             @RequestParam("estClientAutreBanque") boolean estClientAutreBanque,
             @RequestParam("deviceId")             String deviceId,
-
-            @RequestPart(value = "photoCin",        required = false) MultipartFile photoCin,
-            @RequestPart(value = "photoVisageCin",  required = false) MultipartFile photoVisageCin,
             @RequestPart(value = "photoVisageLive", required = false) MultipartFile photoVisageLive
     ) throws IOException {
 
         VerificationIdentiteDTO dto = new VerificationIdentiteDTO();
-        dto.setCin(cin);
-        dto.setDateExpiration(dateExpiration);
         dto.setEstClientAutreBanque(estClientAutreBanque);
         dto.setDeviceId(deviceId);
 
-        VerificationIdentite saved = service.save(dto, photoCin, photoVisageCin, photoVisageLive);
+        VerificationIdentite saved = service.save(dto, photoVisageLive);
         return ResponseEntity.ok(saved);
     }
 

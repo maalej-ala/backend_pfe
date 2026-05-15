@@ -1,5 +1,3 @@
-// package pfe.backend.motDePasse.service;
-
 package pfe.backend.motDePasse.service;
 
 import lombok.RequiredArgsConstructor;
@@ -17,25 +15,34 @@ import pfe.backend.motDePasse.repository.MotDePasseRepository;
 @RequiredArgsConstructor
 public class MotDePasseService {
 
-
     private final MotDePasseRepository repository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final IdentificationRepository identificationRepository;
 
-    public MotDePasse save(MotDePasseDTO dto) {
+    public MotDePasse createOrUpdate(MotDePasseDTO dto) {
+
         // 🔥 récupérer l'utilisateur via deviceId
         Identification identification = identificationRepository
                 .findByDeviceId(dto.getDeviceId())
                 .orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
+
+        // 🔥 vérifier si un mot de passe existe déjà
+        MotDePasse entity = repository
+                .findByIdentification(identification)
+                .orElse(new MotDePasse());
+
+        // 🔥 hash du mot de passe
         String hashed = passwordEncoder.encode(dto.getMotDePasse());
 
-        MotDePasse entity = MotDePasse.builder()
-                .motDePasse(hashed)
-                .identification(identification)
-                .build();
+        // 🔥 update des champs
+        entity.setMotDePasse(hashed);
+
+        // 🔥 liaison avec identification
+        entity.setIdentification(identification);
 
         return repository.save(entity);
     }
+
     public MotDePasse getById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException(

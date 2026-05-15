@@ -52,28 +52,18 @@ public class IdentificationService {
             identification.setAccepteMentions(Boolean.TRUE.equals(request.getAccepteMentions()));
         }
 
-        identification = repository.save(identification);
-
-        // 🔹 3. Mettre à jour VerificationIdentite si données CIN fournies
-        if (request.getNumero() != null || request.getDateExpiration() != null) {
-
-            VerificationIdentite verification = verificationRepository
-                    .findByIdentification(identification)
-                    .orElse(VerificationIdentite.builder()
-                            .identification(identification)
-                            .estClientAutreBanque(false)
-                            .build());
-
-            if (isPresent(request.getNumero())) {
-                verification.setCin(request.getNumero());
-            }
-            if (request.getDateExpiration() != null) {
-                verification.setDateExpiration(request.getDateExpiration());
-            }
-
-            verificationRepository.save(verification);
+        // 🔹 2.5. Mettre à jour CIN et date expiration si fournis
+        String cinValue = request.getCin() ; // compatibilité
+        if (isPresent(cinValue)) {
+            identification.setCin(cinValue);
+        }
+        if (request.getDateExpiration() != null) {
+            identification.setDateExpiration(request.getDateExpiration());
         }
 
+        identification = repository.save(identification);
+
+ 
         return identification;
     }
 

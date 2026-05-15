@@ -20,7 +20,7 @@ public class SituationPersonnelleController {
     @PostMapping
     public ResponseEntity<SituationPersonnelle> save(
             @Valid @RequestBody SituationPersonnelleDTO dto) {
-        return ResponseEntity.ok(service.save(dto));
+        return ResponseEntity.ok(service.createOrUpdate(dto));
     }
 
     @GetMapping("/{id}")

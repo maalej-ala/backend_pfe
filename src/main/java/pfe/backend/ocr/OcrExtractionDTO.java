@@ -24,6 +24,8 @@ public class OcrExtractionDTO {
     
     private String deviceId;
     
+    private String photoCinPath;
+    
     private Long identificationId;
 
 }

@@ -13,9 +13,7 @@ import java.time.LocalDate;
 public class IdentificationRequest {
 
     private String civilite;
-
     private String nom;
-
     private String prenom;
 
     @Email(message = "Email invalide")
@@ -35,13 +33,9 @@ public class IdentificationRequest {
     @NotBlank(message = "Le deviceId est obligatoire")
     private String deviceId;
 
-
-     @Pattern(
-        regexp = "^[A-Z0-9\\-]{5,30}$",
-        message = "Numéro de carte invalide"
-    )
-    private String numero;
-
+    // ── Champs CIN (optionnels, peuvent être remplis par OCR ou utilisateur) ──
+    private String cin;                    // Numéro CIN
+    
     @Future(message = "La date d'expiration doit être dans le futur")
     private LocalDate dateExpiration;
 }

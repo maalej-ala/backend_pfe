@@ -52,7 +52,7 @@ public class AdminDemandeService {
                 .prenom(i.getPrenom())
                 .telephone(i.getTelephone())
                 .email(i.getEmail())
-                .cin(v.getCin())
+                .cin(i.getCin())
                 .scoreSimilarite(d.getScoreSimilarite())
                 .statut(d.getStatut().name())
                 .build();

@@ -16,18 +16,26 @@ public class SituationProfessionnelleService {
     private final SituationProfessionnelleRepository repository;
     private final IdentificationRepository identificationRepository;
 
-    public SituationProfessionnelle save(SituationProfessionnelleDTO dto) {
+    public SituationProfessionnelle createOrUpdate(SituationProfessionnelleDTO dto) {
+
         // 🔥 récupérer l'utilisateur via deviceId
         Identification identification = identificationRepository
                 .findByDeviceId(dto.getDeviceId())
                 .orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
-        SituationProfessionnelle entity = SituationProfessionnelle.builder()
-                .categorieSocioPro(dto.getCategorieSocioPro())
-                .revenu(dto.getRevenu())
-                .natureActivite(dto.getNatureActivite())
-                .secteurActivite(dto.getSecteurActivite())
-                .identification(identification)
-                .build();
+
+        // 🔥 vérifier si une situation professionnelle existe déjà
+        SituationProfessionnelle entity = repository
+                .findByIdentification(identification)
+                .orElse(new SituationProfessionnelle());
+
+        // 🔥 update des champs
+        entity.setCategorieSocioPro(dto.getCategorieSocioPro());
+        entity.setRevenu(dto.getRevenu());
+        entity.setNatureActivite(dto.getNatureActivite());
+        entity.setSecteurActivite(dto.getSecteurActivite());
+
+        // 🔥 liaison avec identification
+        entity.setIdentification(identification);
 
         return repository.save(entity);
     }
