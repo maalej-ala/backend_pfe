@@ -22,7 +22,7 @@ public class Identification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String civilite;        // "M." ou "Mme"
+    private String civilite;        // "M" ou "Mme"
 
     @Column(nullable = true)
     private String nom;
